@@ -1,10 +1,12 @@
 # 网上书店+书店管理系统
 
-## 简介：
+## 前言：
 
 该项目为学校综合课程设计，因为时间太紧，一共两周时间，需要实现用户前台+管理系统+后端以及小程序端（小程序会放在另一个仓库），其中中途还有两门考试，真是** ╥﹏╥。。
 
-所以前端就是拿了以前刚学vue时候练手做的小demo改了一下，直接使用了原生Vue，没有进行重构。而后端则是拿了本学期刚学的servlet，用起来也没有那么不方便，毕竟前后端也是完全分离的。
+所以前端就是拿了以前刚学vue时候练手做的小demo改了一下，直接使用了原生Vue，没有进行重构。而后端则是拿了本学期刚学的servlet，用起来也没有那么不方便，毕竟前后端也是完全分离的 。
+
+虽然项目不大，还有很多瑕疵，但是一人完成全栈开发也还是学到了很多东西。
 
 ## 功能概述：
 
@@ -26,6 +28,9 @@
 - 后端：java servlet+jdbc连接数据库
 - 数据库：sql server
 
+## 小程序端
+请点击https://github.com/inorywww/WeChat-bookSotre
+
 ## 部分截图
 因为页面太多，这里只放部分界面图。
 
@@ -38,6 +43,3 @@
 ![image](https://github.com/inorywww/bookStore/blob/master/images/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E4%B8%BB%E9%A1%B5.png)
 
 ![image](https://github.com/inorywww/bookStore/blob/master/images/%E5%89%8D%E5%8F%B0%E4%B8%BB%E9%A1%B5.png)
-
-## 小程序端
-请点击https://github.com/inorywww/WeChat-bookSotre
