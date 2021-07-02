@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分类详情</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">提示框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label  class="control-label">加入购物车成功</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header"></div>
+
+    <div class="container">
+        <p>{{showData.type}}</p>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                <tr v-for="(item,index) in showData.contents">
+                    <td>
+                        <div style="width: 80px; height: 80px;">
+                            <img :src="item.url" alt="book" style="height:100%;">
+                        </div>
+                    </td>
+                    <td>
+                        <div>{{item.name}}</div>
+                        <div class="text-danger">￥{{item.price}}</div>
+                        <div>{{item.author}}著， {{item.pDate}}/{{item.press}}</div>
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-info btn-block" @click="moreInfo(index)">查看详情</a>
+                        <a class="btn btn-sm btn-danger btn-block" data-target="#myModal" @click="addToCart(index)" >加入购物车</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/categoryDetail.js"></script>
+<script>
+    $("#header").load('header.html')
+</script>
+</body>
+</html>

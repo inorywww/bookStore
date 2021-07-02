@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>书籍管理</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- 模态框（Modal） 编辑书籍-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">输入框</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">标题:
+                            <input type="text" class="form-control" v-model="editBookInfo.name">
+                        </label>
+                        <label class="control-label" style="float:right;">作者:
+                            <input type="text" class="form-control" v-model="editBookInfo.author">
+                        </label>
+
+                        <label class="control-label">数量:
+                            <input type="text" class="form-control" v-model="editBookInfo.amount">
+                        </label>
+                        <label class="control-label" style="float:right;">价格:
+                            <input type="text" class="form-control" v-model="editBookInfo.price">
+                        </label>
+
+                        <label class="control-label">类别:
+                            <input type="text" class="form-control" v-model="editBookInfo.category">
+                        </label>
+                        <label class="control-label" style="float:right;">出版日期:
+                            <input type="text" class="form-control" v-model="editBookInfo.pDate">
+                        </label>
+
+                        <label class="control-label">出版社:
+                            <input type="text" class="form-control" v-model="editBookInfo.press">
+                        </label>
+                        <label class="control-label" style="float:right;">页数:
+                            <input type="text" class="form-control" v-model="editBookInfo.pages">
+                        </label>
+
+                        <label class="control-label">ISBN:
+                            <input type="text" class="form-control" v-model="editBookInfo.ISBN">
+                        </label>
+                        <label class="control-label" style="float:right;">介绍:
+                            <input type="text" class="form-control" v-model="editBookInfo.introduction">
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="editInfo">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） 添加书籍-->
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalAdd" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">输入框</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">标题:
+                            <input type="text" class="form-control" v-model="addBookInfo.name">
+                        </label>
+                        <label class="control-label" style="float:right;">作者:
+                            <input type="text" class="form-control" v-model="addBookInfo.author">
+                        </label>
+
+                        <label class="control-label">数量:
+                            <input type="text" class="form-control" v-model="addBookInfo.amount">
+                        </label>
+                        <label class="control-label" style="float:right;">价格:
+                            <input type="text" class="form-control" v-model="addBookInfo.price">
+                        </label>
+
+                        <label class="control-label">类别:
+                            <input type="text" class="form-control" v-model="addBookInfo.category">
+                        </label>
+                        <label class="control-label" style="float:right;">出版时间:
+                            <input type="text" class="form-control" v-model="addBookInfo.pDate">
+                        </label>
+
+                        <label class="control-label">出版社:
+                            <input type="text" class="form-control" v-model="addBookInfo.press">
+                        </label>
+                        <label class="control-label" style="float:right;">页数:
+                            <input type="text" class="form-control" v-model="addBookInfo.pages">
+                        </label>
+
+                        <label class="control-label">ISBN:
+                            <input type="text" class="form-control" v-model="addBookInfo.ISBN">
+                        </label>
+                        <label class="control-label" style="float:right;">介绍:
+                            <input type="text" class="form-control" v-model="addBookInfo.introduction">
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addBook">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） 提示确认删除-->
+    <div class="modal fade" id="myModalDel" tabindex="-1" role="dialog" aria-labelledby="myModalDel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label1">确定要删除吗？该操作不可逆</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="delBook">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!------导航栏----------->
+    <div id="header"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <!--设置面板panel-->
+                <div id="shenhe" class="panel panel-default">
+                    <div class="panel-body">
+                        <h4 class="col-xs-4">书籍管理
+                            <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">添加</button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModalDel">删除</button>
+                        </h4>
+                        <div class="navbar-form" role="search" style="float:right;">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search" v-model="searchContent" @keyup="searchBook">
+                            </div>
+                            <button type="button" class="btn btn-primary" data-toggle="button" @click="searchBook"> 搜索
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content panel-body">
+                        <div id="name1" class="tab-pane fade in active">
+                            <table class="table">
+                                <tr>
+                                    <th><input type="checkbox"/></th>
+                                    <th>书籍ID</th>
+                                    <th>标题</th>
+                                    <th>作者</th>
+                                    <th>数量</th>
+                                    <th>价格</th>
+                                    <th>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-xs">类别</button>
+                                            <button type="button" class="btn btn-default btn-xs" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li @click="showCategoryBook('all')">
+                                                    <a>全部</a>
+                                                </li>
+                                                <li v-for="(item, index) in categoryBook"
+                                                    @click="showCategoryBook(index)">
+                                                    <a>{{item.type}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th>出版社</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr v-for="(item,index) in showData">
+                                    <td><input type="checkbox" id="inputID"/></td>
+                                    <td>{{item.id}}</td>
+                                    <td><a style="cursor: pointer" @click="moreInfo(index)">{{item.name}}</a></td>
+                                    <td>{{item.author}}</td>
+                                    <td>{{item.amount}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>{{item.category}}</td>
+                                    <td>{{item.press}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default">操作</button>
+                                            <button class="btn btn-default" type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li @click="moreInfo(index)">
+                                                    <a><span class="glyphicon glyphicon-info-sign"></span>&nbsp详情</a>
+                                                </li>
+                                                <li>
+                                                    <a data-toggle="modal" data-target="#myModal"
+                                                       @click="isEdit(index)">
+                                                        <span class="glyphicon glyphicon-edit"></span>&nbsp编辑
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a data-toggle="modal" data-target="#myModalDel"
+                                                       @click="isDel(index)">
+                                                        <span class="glyphicon glyphicon-trash"></span>&nbsp删除
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--------分页--------->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a class="prePage" aria-label="Previous" @click="prePage">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page" v-for="(item,index) in pageNum" @click="jumpPage(index)"><a>{{item}}</a></li>
+                            <li>
+                                <a class="nextPage" aria-label="Next" @click="nextPage">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <!-------页脚------>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center">版权所有@0728谭浩胜</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/m_books.js"></script>
+<script>
+    $("#header").load('m_header.html')
+</script>
+</body>
+
+</html>

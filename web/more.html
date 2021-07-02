@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更多图书</title>
+</head>
+<body>
+<div id="app">
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="index.html" class="navbar-brand">小小书店</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="categories.html">全部分类</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right hidden-sm">
+                    <li>
+                        <form class="navbar-form navbar-left" action="search.html">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="输入关键字查询"
+                                       @keyup.enter="SetSearchContent" v-model="searchContent">
+                            </div>
+                            <button type="submit" class="btn btn-primary" @click="SetSearchContent">搜索</button>
+                        </form>
+                    </li>
+                    <li><a href="login.html">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                    <li>
+                        <a href="cart.html"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a>
+                    </li>
+                    <li>
+                        <a @click="toCenter" style="cursor: pointer">{{loginStatus}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

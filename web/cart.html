@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        .row {
+            margin-left: 20px;
+            margin-right: 20px;;
+        }
+
+        .line-center {
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .row input {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">确认框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label1">提交成功，是否跳转订单页面？</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" @click="toOrder">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="header"></div>
+
+    <div class="container">
+        <div class="row thumbnail center">
+            <div class="col-sm-12">
+                <h3 class="text-center" style="margin-bottom: 20px">购物车</h3>
+            </div>
+            <div class="col-sm-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center"></th>
+                        <th class="text-center">图书</th>
+                        <th class="text-center">单价</th>
+                        <th class="text-center">数量</th>
+                        <th class="text-center">小计</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in showData">
+                        <td>
+                            <div class="line-center" style="width: 50px;height: 50px;">
+                                <img src="Flat-UI-master/dist/img/icons/png/Book.png" style="height: 100%;" alt=""/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-center">{{item.name}}</div>
+                        </td>
+                        <td>
+                            <div class="line-center">￥{{item.price}}</div>
+                        </td>
+                        <td>
+                            <div class=" line-center">
+                                <button type="button" class="btn btn-sm btn-danger" @click="changeNum(index,'-')">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>
+                                <input type="text" class="small text-center" v-model="item.buy_num"/>
+                                <button type="button" class="btn btn-sm btn-success" @click="changeNum(index,'+')">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="line-center">￥{{item.buy_num * item.price}}</div>
+                        </td>
+                        <td>
+                            <div class="line-center">
+                                <button type="button" class="btn btn-sm btn-danger" @click="delBook(index)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">统计</td>
+                        <td class="text-center">总数：{{totalNum}}</td>
+                        <td class="text-center">总价:￥{{totalPrice}}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="col-sm-offset-9 col-sm-3" style="padding-bottom: 15px;">
+                <a href="index.html"><button class="btn btn-success">继续购物</button></a>
+                <button class="btn btn-danger" @click="submitOrder" data-toggle="modal">提交订单</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/cart.js"></script>
+<script>
+    $("#header").load('header.html')
+</script>
+</body>
+</html>

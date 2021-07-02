@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+
+    <style>
+        a{
+            cursor: pointer;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app1">
+    <!-- 模态框（Modal） 提示确认删除-->
+    <div class="modal fade" id="myModalExit" tabindex="-1" role="dialog" aria-labelledby="myModalExit"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label1">确定要退出吗？</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="loginOut">确认</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-default">    <!--navbar是导航条组件，导航条组件为黑色主题-->
+        <div class="navbar-header">     <!--navbar-header指定div元素为导航条组件包裹品牌图标及切换按钮-->
+            <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="m_index.html" class="navbar-brand">管理后台</a>
+        </div>
+        <!--屏幕宽度小于768px时，该div内的内容默认都会隐藏（通过点击上面的button时展开），大于768px时默认显示-->
+        <div class="collapse navbar-collapse navbar-left row" style="width:80%;">
+            <ul class="nav navbar-nav col-xs-7">
+                <li><a href="m_index.html"><span class="glyphicon glyphicon-home"></span> 后台首页</a></li>
+                <li><a href="m_user.html"><span class="glyphicon glyphicon-user"></span> 用户管理</a></li>
+                <li><a href="m_books.html"><span class="glyphicon glyphicon-list-alt"></span> 书籍管理</a></li>
+                <li><a href="m_order.html"><span class="glyphicon glyphicon-usd"></span> 订单管理</a></li>
+            </ul>
+
+        </div>
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 20px">
+            <li class="dropdown">
+                <a id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    root
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    <li @click="loginOut"><a ><span class="glyphicon glyphicon-screenshot"></span>前台首页</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> 个人主页</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-cog"></span> 个人设置</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-blackboard"></span> 账户中心</a></li>
+                </ul>
+            </li>
+            <li data-toggle="modal" data-target="#myModalExit"><a><span class="glyphicon glyphicon-off">退出</span> </a></li>
+        </ul>
+    </div>
+</div>
+<script src="js/common.js"></script>
+<script>
+let vm = new Vue({
+    el:"#app1",
+    methods:{
+        loginOut: function () {
+            let account = getCok("account");
+            if (account === "root") {
+                let d = new Date();
+                d.setTime(d.getTime() + (-1 * 24 * 60 * 60 * 1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = 'account' + "=" + "" + "; " + expires;
+                window.location.href = "index.html"
+            }
+        },
+    }
+})
+</script>
+</body>
+</html>

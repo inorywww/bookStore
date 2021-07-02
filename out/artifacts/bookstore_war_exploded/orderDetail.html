@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单详情</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        .row {
+            margin-left: 20px;
+            margin-right: 20px;;
+        }
+
+        .row input {
+            width: 50px;
+        }
+
+        .list-group-item div:first-child:hover {
+
+            cursor: pointer;
+        }
+
+        th {
+            text-align: right;
+            width: 200px;;
+        }
+
+        td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .table th {
+            text-align: center;
+        }
+
+        .table td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="header"></div>
+
+    <div class="container">
+        <div class="row thumbnail center col-sm-12">
+            <div class="col-sm-12">
+                <h3 class="text-center" style="margin-bottom: 20px">订单详情</h3>
+            </div>
+
+            <div class="col-sm-12 ">
+                <table>
+                    <tr>
+                        <th>订单编号：</th>
+                        <td>{{orderInfo.orderID}}</td>
+                    </tr>
+                    <tr>
+                        <th>订单状态：</th>
+                        <td>{{orderInfo.status}}</td>
+                    </tr>
+                    <tr>
+                        <th>收货人姓名：</th>
+                        <td>{{userInfo.accName}}</td>
+                    </tr>
+                    <tr>
+                        <th>收货人地址：</th>
+                        <td>{{userInfo.address}}</td>
+                    </tr>
+                    <tr>
+                        <th>收货人电话：</th>
+                        <td>{{userInfo.tel}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in bookInfo">
+                        <td>{{item.name}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.buy_num}}</td>
+                        <td>{{item.buy_num * item.price}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td class="text-right">商品总数：{{orderInfo.buy_num}}</td>
+                        <td class="text-center">订单总价：￥{{orderInfo.totalPrice}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="index.html" class="btn btn-primary btn-sm col-sm-12">继续购物</a>
+                        </td>
+                        <td></td>
+                        <td>
+                            <a @click="delOrder" class="btn btn-danger btn-sm col-sm-12">删除订单</a>
+                        </td>
+                        <td>
+                            <a  class="btn btn-success btn-sm col-sm-12">立即支付</a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/orderDetail.js"></script>
+<script>
+    $("#header").load('header.html')
+</script>
+</body>
+</html>

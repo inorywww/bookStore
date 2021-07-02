@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script>
+        $(function () {
+            $('#myTabs a').click(function () {
+                if ($(this)[0].hash == "#orderManager" && $("#footer").hasClass("navbar-fixed-bottom")) {
+                    $("#footer").removeClass("navbar-fixed-bottom");
+                } else {
+                    if (!$("#footer").hasClass("navbar-fixed-bottom")) {
+                        $("#footer").addClass("navbar-fixed-bottom");
+                    }
+                }
+                $(this).tab('show')
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="app">
+
+    <div id="header"></div>
+    <div class="container">
+        <div class="row thumbnail center col-sm-12">
+            <div class="col-sm-12">
+                <h3 class="text-center" style="margin-bottom: 20px">个人中心</h3>
+            </div>
+
+            <ul class="nav nav-tabs nav-justified" id="myTabs">
+                <li  class="active"><a href="#orderManager">订单管理</a></li>
+                <li><a href="#editInfo">信息修改</a></li>
+                <li><a href="#editPassword">密码修改</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="orderManager">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center">订单编号</th>
+                                <th class="text-center">订单状态</th>
+                                <th class="text-center">商品数量</th>
+                                <th class="text-center">订单总价</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item,index) in orderInfo">
+                                <td class="text-center">
+                                    <div>{{item.orderID}}</div>
+                                </td>
+                                <td class="text-center"><span>{{item.status}}</span></td>
+                                <td class="text-center">
+                                    <span>{{item.buy_num}}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span>${{item.totalPrice}}</span>
+                                </td>
+
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-success" data-toggle="tooltip" title="提交订单"
+                                       @click="submitOrder(index)">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="查看订单"
+                                       @click="viewOrder(index)">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" title="取消订单"
+                                       @click="delOrder(index)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" title="删除订单"
+                                       @click="delOrder(index)">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="editInfo">
+                    <div class="table-responsive" style="padding: 20px;">
+                        <table class="table">
+                            <tbody id="tbody">
+                            <tr>
+                                <td style="width: 22%">收货人姓名</td>
+                                <td style="width: 30%">
+                                    <div id="accountShow">
+                                        {{userInfo.accName}}
+                                    </div>
+                                    <input id="accountInput" type="text" class="form-control" placeholder="请输入用户名"
+                                           style="width: 100%;display: none" v-model="upInfo.accName"
+                                           @keyup.enter="updateInfo('account')" autocomplete="off">
+                                </td>
+                                <td style="width: 30%;" @click="hideInput('account')"></td>
+                                <td><a style="cursor: pointer" @click="updateInfo('account')" class="text-info">修改</a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 22%">手机号码</td>
+                                <td style="width: 30%">
+                                    <div id="telShow">
+                                        {{userInfo.tel}}
+                                    </div>
+
+                                    <input id="telInput" type="text" class="form-control" placeholder="请输入手机号"
+                                           style="width: 100%;display: none" v-model="upInfo.tel"
+                                           @keyup.enter="updateInfo('tel')" autocomplete="off">
+
+                                </td>
+
+                                <td style="width: 30%;" @click="hideInput('tel')"></td>
+                                <td><a style="cursor: pointer" @click="updateInfo('tel')" class="text-info">修改</a></td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 22%">收货地址</td>
+                                <td style="width: 30%">
+                                    <div id="addressShow">
+                                        <div>{{userInfo.address}}</div>
+                                    </div>
+
+                                    <input id="addressInput" type="text" class="form-control" placeholder="请输入收获地址"
+                                           style="width:100%;display: none" v-model="upInfo.address"
+                                           @keyup.enter="updateInfo('address')" autocomplete="off">
+                                </td>
+
+                                <td style="width: 30%;" @click="hideInput('address')"></td>
+                                <td><a style="cursor: pointer" @click="updateInfo('address')" class="text-info">修改</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="editPassword">
+                    <div class="container" style="margin-top: 20px;">
+                        <div class="col-sm-12">
+                            <form class="form-horizontal caption">
+                                <div class="form-group">
+                                    <label for="old_password" class="col-sm-4 control-label">旧密码</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="old_password"
+                                               placeholder="请输入旧密码" v-model="accountInfo.oldPassword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_password" class="col-sm-4 control-label">新密码</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="new_password"
+                                               placeholder="请输入新密码" v-model="accountInfo.newPassword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password" class="col-sm-4 control-label">确认密码</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="confirm_password"
+                                               placeholder="请确认密码" v-model="accountInfo.newPasswordRe">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-5">
+                                        <button type="button" class="btn btn-info btn-block" @click="updatePwd">立即修改
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/center.js"></script>
+<script>
+    $("#header").load('header.html');
+
+</script>
+</body>
+</html>

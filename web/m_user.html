@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--添加用户的模态框-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" class="form-control" placeholder="用户名" v-model="addInfo.account">
+                        </div>
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="text" class="form-control" placeholder="密码" v-model="addInfo.password">
+                        </div>
+                        <div class="form-group">
+                            <label>收货人姓名</label>
+                            <input type="text" class="form-control"
+                                   placeholder="姓名" v-model="addInfo.accName">
+                        </div>
+                        <div class="form-group">
+                            <label>电话</label>
+                            <input type="text" class="form-control"
+                                   placeholder="xxx xxxx xxxx xxxx" v-model="addInfo.tel">
+                        </div>
+                        <div class="form-group">
+                            <label>地址</label>
+                            <input type="text" class="form-control"
+                                   placeholder="地址" v-model="addInfo.address">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="addUser" data-dismiss="modal">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--编辑用户的模态框-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">编辑用户</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" class="form-control" placeholder="长度在5-20个字符"
+                                   v-model="editUserInfo.account">
+                        </div>
+
+                        <div class="form-group">
+                            <label>密码</label>
+                            <input type="text" class="form-control" placeholder="不少于8位密码"
+                                   v-model="editUserInfo.password">
+                        </div>
+                        <div class="form-group">
+                            <label>收货人姓名</label>
+                            <input type="text" class="form-control"
+                                   placeholder="姓名" v-model="editUserInfo.accName">
+                        </div>
+                        <div class="form-group">
+                            <label>电话</label>
+                            <input type="text" class="form-control"
+                                   placeholder="xxx xxxx xxxx xxxx" v-model="editUserInfo.tel">
+                        </div>
+                        <div class="form-group">
+                            <label>地址</label>
+                            <input type="text" class="form-control"
+                                   placeholder="地址" v-model="editUserInfo.address">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="editInfo" data-dismiss="modal">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 模态框（Modal） 提示确认删除-->
+    <div class="modal fade" id="myModalDel" tabindex="-1" role="dialog" aria-labelledby="myModalDel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label1">确定要删除吗？该操作不可逆</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="delUser">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header"></div>
+    <!------导航栏----------->
+
+    <div class="container"><!---------------栅格布局左2右10------------>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="list-group"><!---------------列表------------>
+                    <a href="m_user.html" class="list-group-item active">用户管理</a>
+                    <a class="list-group-item" data-toggle="modal" data-target="#myModal">创建用户</a>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="m_user.html">用户列表</a><!----------------用户管理界面----------------->
+                    </li>
+
+                    <div class="navbar-form" role="search" style="float:right;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search" v-model="searchContent"
+                                   @keyup="searchUser">
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="button" @click="searchUser"> 搜索
+                        </button>
+                    </div>
+                </ul>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>收货人姓名</th>
+                        <th>电话</th>
+                        <th>地址</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="(item, index) in showData">
+                    <tr>
+                        <th scope="row">{{item.account}}</th>
+                        <td>{{item.accName}}</td>
+                        <td>{{item.tel}}</td>
+                        <td>{{item.address}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-default" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    操作
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a data-toggle="modal" data-target="#myModal1" @click="isEdit(index)">
+                                            <span class="glyphicon glyphicon-user"></span>&nbsp;编辑
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="modal" data-target="#myModalDel"
+                                           @click="isDel(index)">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;删除
+                                    </a>
+                                    </li>
+                                    <li><a><span class="glyphicon glyphicon-user"></span>&nbsp;锁定</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--------分页--------->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a class="prePage" aria-label="Previous" @click="prePage">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page" v-for="(item,index) in pageNum" @click="jumpPage(index)"><a>{{item}}</a></li>
+                        <li>
+                            <a class="nextPage" aria-label="Next" @click="nextPage">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-------页脚------>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p style="text-align: center">版权所有@0728谭浩胜</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/m_user.js"></script>
+<script>
+    $("#header").load('m_header.html');
+</script>
+</body>
+</html>

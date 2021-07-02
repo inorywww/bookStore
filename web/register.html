@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div id="header"></div>
+    <div class="container">
+        <div class="row thumbnail center">
+            <div class="col-sm-12">
+                <h3 class="text-center" style="margin-bottom: 20px">用户注册</h3>
+            </div>
+            <div class="col-sm-12">
+                <form class="form-horizontal caption">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-4 control-label">用户名</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="username" placeholder="用户名" v-model="account">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-4 control-label">密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" id="password" placeholder="密码" v-model="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-4 control-label">确认密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" id="passwordRe" placeholder="密码" v-model="passwordRe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-5">
+                            <button type="button" class="btn btn-success btn-block" @click="registerAccount">立即注册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/register.js"></script>
+<script>
+    $("#header").load('header.html')
+</script>
+</body>
+</html>

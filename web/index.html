@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图书商城</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        .row {
+            margin-top: 20px;;
+        }
+        .card {
+            margin-top: 10px;
+        }
+
+        .more {
+            height: 32px;
+            width: 32px;
+            background-image: url(images/更多.png) ;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">提示框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label  class="control-label">加入购物车成功</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="header"></div>
+
+    <div class="container">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="images/sy01.jpg" alt="" style="height: 500px;width: 100%;">
+                </div>
+                <div class="item">
+                    <img src="images/sy03.jpg" alt="" style="height: 500px;width: 100%;">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+        <div class="card">
+            <div class="panel panel-info" v-for="(item,index) in showData">
+                <div class="panel-heading">{{item.type}}
+                    <a class="more" role="button" @click="moreBook(index)"></a>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-3" v-for="(item1,index1) in item.contents">
+                            <div class="thumbnail">
+                                <a href="#">
+                                    <img style="width: 100%; height: 250px; display: block;" alt="image" :src="item1.url" data-holder-rendered="true">
+                                </a>
+                                <div class="caption">
+                                    <div class="text-left">{{item1.name}}</div>
+                                    <div>
+                                        <span class="text-left text-danger">￥{{item1.price}}</span>
+                                    </div>
+                                    <div class="small">
+                                        {{item1.author}}著
+                                    </div>
+                                    <p><a class="btn btn-primary btn-block" role="button" @click="moreInfo(index,index1)">查看详情</a>
+                                    </p>
+                                    <p><a class="btn btn-danger btn-block" role="button" data-target="#myModal" @click="addToCart(index,index1)">加入购物车</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/index.js"></script>
+<script>
+    $("#header").load('header.html')
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <style>
+        a{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!------导航栏----------->
+    <div id="header"></div>
+    <!------警告框----------->
+    <div class="container">
+        <div class="row">
+            <!-----------网站统计数据和网站热帖------------>
+            <div class="col-md-6">
+                <div class="panel panel-default"><!-----面板------>
+                    <div class="panel-heading">网站统计数据</div>    <!----标题------>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead><!-----表单------>
+                            <tr>
+                                <th>统计数据</th>
+                                <th>总</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <th>用户数</th>
+                                <td>{{countInfo.userCount}}</td>
+                            </tr>
+                            <tr>
+                                <th>总书籍</th>
+                                <td>{{countInfo.bookCount}}</td>
+                            </tr>
+                            <tr>
+                                <th>总订单量</th>
+                                <td>{{countInfo.orderCount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">最新图书</div>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="(item,index) in newBooks">
+                            <a @click="moreBookInfo(index)"><span class="glyphicon glyphicon-list-alt"></span>{{item.name}}<small
+                                    class="pull-right">{{item.author}}</small></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default"> <!------------面板--------->
+                    <div class="panel-heading">
+                        <h3 class="panel-title">留言板</h3><!----------设置下面布局为左8右4----------->
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-8">
+                            <ul class="media-list">
+                                <li class="media well">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="img-circle" src="images/1.jpg" alt="图像">
+                                            <!-------------头像设为圆形------------>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">李哥</h4>
+                                        黄老师，麻烦今天晚上把网站升级一下，有漏洞风险哈。
+                                    </div>
+                                </li>
+                                <li class="media well">
+                                    <div class="media-body text-right">
+                                        <h4 class="media-heading">黄老师</h4>
+                                        好的，今天凌晨2点准时升级。
+                                    </div>
+                                    <div class="media-right">
+                                        <a href="#">
+                                            <img class="img-circle" src="images/2.jpg" alt="图像">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="media well">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="img-circle" src="images/1.jpg" alt="图像">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">李哥</h4>
+                                        黄老师，麻烦今天晚上把网站升级一下，有漏洞风险哈。
+                                    </div>
+                                </li>
+                                <li class="media well">
+                                    <div class="media-body text-right">
+                                        <h4 class="media-heading">黄老师</h4>
+                                        好的，今天凌晨2点准时升级。
+                                    </div>
+                                    <div class="media-right">
+                                        <a href="#">
+                                            <img class="img-circle" src="images/2.jpg" alt="图像">
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">最新订单</div>
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="(item,index) in newOrder">
+                                        <a @click="moreOrderInfo(index)">
+                                            <span class=""></span>{{item.orderID}}
+                                            <small class="pull-right">{{item.status}}</small>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-------页脚------>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center">版权所有@0728谭浩胜</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<script src="js/m_index.js"></script>
+<script>
+    $("#header").load('m_header.html')
+</script>
+</body>
+</html>

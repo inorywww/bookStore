@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-3.3.4/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Flat-UI-master/dist/css/flat-ui.min.css">
+
+    <script src="bootstrap-3.3.4/dist/js/jquery-1.11.3.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+
+<div id="app1">
+    <!-- 模态框（Modal） 提示确认退出-->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">确认框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label1">确定要退出吗？</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" @click="loginOut">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal）提示已登录 -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel2">提示框</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="control-label2">已登录，请勿重复登录！</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-default" id="top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="index.html" class="navbar-brand">小小书店</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="categories.html">全部分类</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav" style="margin-left: 170px">
+                    <li>
+                        <div class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input id="searchID" type="text" class="form-control" placeholder="输入关键字查询"
+                                       @keyup.enter="SetSearchContent" v-model="searchContent" >
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="SetSearchContent">搜索</button>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right ">
+
+                    <li><a style="cursor: pointer" data-target="#myModal2" @click="loginCheck">登录</a></li>
+                    <li><a href="register.html">注册</a></li>
+                    <li>
+                        <a style="cursor: pointer" data-target="#myModal2" @click="cartCheck">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a @click="toCenter" style="cursor: pointer"><span class="glyphicon glyphicon-user"></span></a>
+                    </li>
+                    <li>
+                        <a style="cursor: pointer" data-toggle="modal" data-target="#myModal1">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="bootstrap-3.3.4/dist/js/bootstrap.min.js"></script>
+<!--<script src="Flat-UI-master/dist/js/flat-ui.min.js"></script>-->
+<script src="bootstrap-3.3.4/js/carousel.js"></script>
+<script src="js/common.js"></script>
+<script src="js/header.js"></script>
+<script>
+</script>
+</body>
+</html>
